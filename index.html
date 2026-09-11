@@ -1,19 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nightmare Dating App</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nightmare Dating App</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-    <!-- Shifana's UI elements will go here -->
-    <div id="app-container">
-        <h1>App Loading...</h1>
+  <!-- HUD Scoreboard -->
+  <header id="hud">
+    <span>AI Annoyance: <b id="score">0</b></span>
+  </header>
+
+  <!-- Mobile Phone Container -->
+  <main id="phone-container">
+    <div id="card">
+      <div id="card-photo"></div>
+      <div id="card-details">
+        <h2>Alex, 24</h2>
+        <div id="bio-scroll-area">
+          <p>Adventurer. Coffee addict. Looking for my partner in crime.</p>
+          <p id="boring-target"><b>TERMS & CONDITIONS:</b> By swiping on this profile, you agree that socks with sandals are a federal offense. You also forfeit all rights to Sunday morning sleep-ins.</p>
+          <p>I enjoy hiking mountains, competitive thumb wrestling, and long walks away from my problems.</p>
+        </div>
+      </div>
+      <div id="card-actions">
+        <button id="pass-btn" class="action-btn">✕</button>
+        <button id="like-btn" class="action-btn">♥</button>
+      </div>
     </div>
 
-    <!-- Nihal's Telemetry & AI Logic -->
-    <script src="app.js"></script>
+    <!-- Chat Drawer -->
+    <div id="chat-drawer">
+      <input type="text" id="chat-input" placeholder="Type your opener..." autocomplete="off">
+      <button id="chat-send">Send</button>
+    </div>
+
+    <!-- Agent 1: The Evasive Banner -->
+    <div id="premium-banner">
+      <button id="close-banner-btn">✕</button>
+      <p>🔥 <b>Upgrade to Tinder Gold!</b> See who likes you right now!</p>
+    </div>
+  </main>
+
+  <!-- Agent 4: The Cursor Twin -->
+  <div id="fake-cursor"></div>
+
+  <!-- Load Nihal & Shifana's scripts in order -->
+  <script src="js/telemetry.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/qlearning.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
