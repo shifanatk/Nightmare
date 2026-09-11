@@ -1,97 +1,316 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  background-color: #121212;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #121214;
+  color: #ffffff;
   min-height: 100vh;
-  overflow: hidden;
-}
-
-#hud { position: fixed; top: 12px; font-size: 1.1rem; color: #ff4757; }
-
-#phone-container {
-  position: relative;
-  width: 360px;
-  height: 640px;
-  background: #1e1e1e;
-  border-radius: 28px;
-  overflow: hidden;
-  border: 4px solid #333;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-#card { display: flex; flex-direction: column; height: 100%; }
-#card-photo { height: 50%; background: #444; }
-#card-details { padding: 14px; flex-grow: 1; display: flex; flex-direction: column; }
-
-#bio-scroll-area {
-  height: 110px;
-  overflow-y: scroll;
-  margin-top: 8px;
-  padding-right: 6px;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-#boring-target { background: #2f2f2f; padding: 6px; border-radius: 4px; margin: 8px 0; }
-
-#card-actions {
-  display: flex;
-  justify-content: space-around;
-  padding: 12px;
-}
-.action-btn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: none;
-  font-size: 1.4rem;
-  cursor: pointer;
-}
-#pass-btn { background: #ff4d4d; color: white; }
-#like-btn { background: #2ed573; color: white; }
-
-#chat-drawer {
-  display: flex;
-  padding: 10px;
-  background: #2a2a2a;
-}
-#chat-input { flex-grow: 1; padding: 8px; border-radius: 4px; border: none; }
-#chat-send { margin-left: 6px; padding: 8px 12px; }
-
-#premium-banner {
-  position: absolute;
-  bottom: 80px;
-  left: 20px;
-  right: 20px;
-  background: #ffa502;
-  color: black;
-  padding: 14px;
-  border-radius: 8px;
-  transition: transform 0.15s ease-out;
-}
-#close-banner-btn {
-  position: absolute;
-  top: 4px;
-  right: 6px;
-  background: none;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-}
-
+/* Frozen Fake Cursor: Must have pointer-events: none */
 #fake-cursor {
   position: fixed;
-  width: 18px;
-  height: 18px;
-  background-color: rgba(255, 255, 255, 0.85);
-  border: 2px solid black;
-  border-radius: 50%;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 9999;
+  transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+  display: none;
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: flex-start;
+  padding: 24px;
+  max-width: 1000px;
+  width: 100%;
+}
+
+/* Mobile Phone Shell */
+.phone-frame {
+  position: relative;
+  width: 380px;
+  height: 720px;
+  background-color: #1e1e24;
+  border-radius: 36px;
+  border: 10px solid #2e2e38;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+.app-header {
+  padding: 12px;
+  text-align: center;
+  background: #18181c;
+  position: relative;
+}
+
+.notch {
+  width: 120px;
+  height: 16px;
+  background: #2e2e38;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.app-title {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ff3366;
+}
+
+/* Premium Hostile Banner */
+#premium-banner {
+  position: absolute;
+  top: 50px;
+  left: 15px;
+  width: 330px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #ff0055, #7928ca);
+  border-radius: 12px;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.25s ease-out, opacity 0.2s ease;
+}
+
+.banner-content .badge {
+  background: #000;
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.banner-content p {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+#close-banner {
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Profile Card */
+#profile-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.image-wrapper {
+  position: relative;
+  height: 280px;
+  width: 100%;
+}
+
+#profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info-overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 16px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* Scrollable Bio with Boring Disclaimers */
+/* Scrollable Bio with Boring Disclaimers */
+#bio-panel {
+  height: 180px;              /* Fixes a clear scrollable viewport */
+  overflow-y: auto;           /* Enables vertical scrolling */
+  padding: 12px 16px;
+  background: #18181c;
+  scroll-behavior: smooth;
+}
+
+.bio-section {
+  margin-bottom: 20px;
+}
+
+/* Ensure the boring section is placed deep enough to require scrolling */
+.bio-section.terms {
+  margin-top: 140px;          /* Adds distance so scrolling is obvious */
+  border-top: 1px dashed #333;
+  padding-top: 10px;
+  color: #777;
+}
+
+.bio-section h3 {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+.bio-section p {
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: #ddd;
+}
+
+.bio-section.terms {
+  border-top: 1px dashed #333;
+  padding-top: 10px;
+  color: #777;
+}
+
+/* Card Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  background: #18181c;
+}
+
+.action-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: transparent;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.action-btn:active {
+  transform: scale(0.9);
+}
+
+.action-btn.pass { border-color: #ff4458; color: #ff4458; }
+.action-btn.super { border-color: #00d2ff; color: #00d2ff; }
+.action-btn.like { border-color: #00e676; color: #00e676; }
+
+/* Chat Autocomplete Drawer */
+.chat-drawer {
+  padding: 8px 12px 14px;
+  background: #131316;
+}
+
+#suggestion-chip-container {
+  min-height: 24px;
+  margin-bottom: 4px;
+}
+
+#suggestion-chip {
+  background: #2a2a35;
+  color: #ff99bb;
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+
+#chat-input {
+  flex: 1;
+  padding: 8px 12px;
+  background: #23232c;
+  border: 1px solid #333;
+  border-radius: 16px;
+  color: #fff;
+}
+
+#send-btn {
+  padding: 8px 14px;
+  background: #ff3366;
+  border: none;
+  border-radius: 16px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Dashboard Panel */
+.dashboard-panel {
+  width: 320px;
+  background: #1a1a22;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #2c2c38;
+}
+
+.dashboard-panel h2 {
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  color: #ff3366;
+}
+
+.metric-group {
+  margin-bottom: 12px;
+}
+
+.metric-group label {
+  display: block;
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 2px;
+}
+
+.metric-group span {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #00d2ff;
+}
+
+#agent-status {
+  font-family: monospace;
+  font-size: 0.75rem;
+  background: #111;
+  padding: 8px;
+  border-radius: 6px;
+  border-left: 3px solid #ff0055;
+  color: #eee;
+  min-height: 48px;
+}
+
+.reset-btn {
+  width: 100%;
+  padding: 10px;
+  background: #ff4458;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
 }

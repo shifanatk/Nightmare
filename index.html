@@ -1,55 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nightmare Dating App</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- HUD Scoreboard -->
-  <header id="hud">
-    <span>AI Annoyance: <b id="score">0</b></span>
-  </header>
 
-  <!-- Mobile Phone Container -->
-  <main id="phone-container">
-    <div id="card">
-      <div id="card-photo"></div>
-      <div id="card-details">
-        <h2>Alex, 24</h2>
-        <div id="bio-scroll-area">
-          <p>Adventurer. Coffee addict. Looking for my partner in crime.</p>
-          <p id="boring-target"><b>TERMS & CONDITIONS:</b> By swiping on this profile, you agree that socks with sandals are a federal offense. You also forfeit all rights to Sunday morning sleep-ins.</p>
-          <p>I enjoy hiking mountains, competitive thumb wrestling, and long walks away from my problems.</p>
+  <!-- Floating SVG Fake Cursor (pointer-events: none) -->
+  <div id="fake-cursor">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.86a.5.5 0 0 0-.85.35z" fill="#ff0055" stroke="#ffffff" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <main class="app-layout">
+    <!-- Phone Mockup Container -->
+    <div class="phone-frame">
+      <header class="app-header">
+        <div class="notch"></div>
+        <div class="app-title">CupidCrush (Adversarial UX)</div>
+      </header>
+
+      <!-- Self-Destructing Premium Banner -->
+      <aside id="premium-banner" class="banner-active">
+        <div class="banner-content">
+          <span class="badge">LIMITED OFFER</span>
+          <p>Get CupidCrush Platinum for 90% off!</p>
         </div>
-      </div>
-      <div id="card-actions">
-        <button id="pass-btn" class="action-btn">✕</button>
-        <button id="like-btn" class="action-btn">♥</button>
-      </div>
+        <button id="close-banner" aria-label="Close promotion">&times;</button>
+      </aside>
+
+      <!-- Main Profile Card Container -->
+      <section id="profile-card">
+        <div class="image-wrapper">
+          <img id="profile-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" alt="Profile" />
+          <div class="profile-info-overlay">
+            <h2 id="profile-name-age">Alex, 26</h2>
+            <p id="profile-location">📍 2 miles away</p>
+          </div>
+        </div>
+
+        <!-- Scrollable Bio with Target Boring Terms -->
+        <article id="bio-panel">
+          <div class="bio-section interesting">
+            <h3>About Me</h3>
+            <p id="bio-text">Lover of coffee shops, vintage cameras, and long weekend hikes. Looking for someone who doesn't take life too seriously!</p>
+          </div>
+          <div id="boring-target" class="bio-section terms">
+            <h3>Terms of Service & Mandatory Disclaimers</h3>
+            <p>Clause 84.1: By scrolling past this checkpoint, the user agrees in perpetuity to read every standard liability waiver, including sub-clauses regarding dark patterns, arbitrary layout modifications, and synthetic friction interfaces. Continued interaction implies acceptance of unexpected cursor behavior.</p>
+          </div>
+        </article>
+
+        <!-- Profile Action Buttons -->
+        <footer class="action-buttons">
+          <button id="pass-btn" class="action-btn pass" aria-label="Pass">✖</button>
+          <button id="super-btn" class="action-btn super" aria-label="Super Like">★</button>
+          <button id="like-btn" class="action-btn like" aria-label="Like">♥</button>
+        </footer>
+
+        <!-- Chat Opener & Hostile Autocomplete -->
+        <div class="chat-drawer">
+          <div id="suggestion-chip-container">
+            <span id="suggestion-chip" class="hidden"></span>
+          </div>
+          <div class="input-row">
+            <input type="text" id="chat-input" placeholder="Send a witty opener..." autocomplete="off" />
+            <button id="send-btn">Send</button>
+          </div>
+        </div>
+      </section>
     </div>
 
-    <!-- Chat Drawer -->
-    <div id="chat-drawer">
-      <input type="text" id="chat-input" placeholder="Type your opener..." autocomplete="off">
-      <button id="chat-send">Send</button>
-    </div>
-
-    <!-- Agent 1: The Evasive Banner -->
-    <div id="premium-banner">
-      <button id="close-banner-btn">✕</button>
-      <p>🔥 <b>Upgrade to Tinder Gold!</b> See who likes you right now!</p>
-    </div>
+    <!-- Live Telemetry & RL Dashboard -->
+    <aside class="dashboard-panel">
+      <h2>RL Hostile Dashboard</h2>
+      <div class="metric-group">
+        <label>Total Agent Friction Reward:</label>
+        <span id="total-reward">0.0</span>
+      </div>
+      <div class="metric-group">
+        <label>States Learned (Q-Table Count):</label>
+        <span id="q-states">0</span>
+      </div>
+      <div class="metric-group">
+        <label>Live Agent Decision / Status:</label>
+        <div id="agent-status">Awaiting interaction...</div>
+      </div>
+      <div class="dashboard-actions">
+        <button id="reset-training" class="reset-btn">Reset Q-Learning Memory</button>
+      </div>
+    </aside>
   </main>
 
-  <!-- Agent 4: The Cursor Twin -->
-  <div id="fake-cursor"></div>
-
-  <!-- Load Nihal & Shifana's scripts in order -->
-  <script src="js/telemetry.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/qlearning.js"></script>
-  <script src="js/main.js"></script>
+  <!-- Script Modules Execution Order -->
+  <script src="src/state.js"></script>
+  <script src="src/ui.js"></script>
+  <!-- Nihal will add telemetry.js, q_learning.js, agents.js, loop.js here -->
+  <script src="app.js"></script>
 </body>
 </html>
